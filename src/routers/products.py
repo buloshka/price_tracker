@@ -7,6 +7,7 @@ from src.storage.database import get_async_session
 from src.storage.models import Products, Users
 from src.storage.schemas import ProductCreate, ProductResponse
 from src.routers.dependencies import get_current_user
+from src.services.parser import PriceParser
 
 router = APIRouter(prefix="/products", tags=["Products"])
 
@@ -46,3 +47,14 @@ async def get_my_products(
     query = select(Products).where(Products.user_id == current_user.id)
     result = await db.execute(query)
     return result.scalars().all()
+
+
+@router.post("/test-parse", summary="Тест парсера (вручную)")
+async def test_parse(url: str):
+    """Отправляет тестовый запрос парсеру и возвращает то, что он смог собрать."""
+    title, price = await PriceParser.parse_product(url)
+    return {
+        "url": url,
+        "parsed_title": title,
+        "parsed_price": price
+    }
