@@ -1,0 +1,28 @@
+services:
+  # Мы сами даем название сервису. Пусть будет db
+  db:
+    # Docker автоматически скачает этот официальный готовый образ базы данных из интернета
+    image: postgres:15-alpine
+    # Название контейнера, которое будет отображаться в Docker Desktop
+    container_name: price_tracker_postgres
+
+    # Docker Compose автоматически возьмет эти переменные из вашего файла .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+
+    # Проброс портов: [Порт на вашем компьютере] : [Порт внутри контейнера]
+    ports:
+      - "${DB_PORT}:5432"
+
+    # Именованное хранилище. Нужна для того, чтобы при перезапуске контейнера ваши таблицы и данные не стирались
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    # Если база данных упадет или перезагрузится ваш ПК, Docker сам поднимет её снова
+    restart: always
+
+# Объявляем наше хранилище данных
+volumes:
+  postgres_data:
