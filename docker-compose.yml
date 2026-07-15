@@ -2,7 +2,7 @@ services:
   # Мы сами даем название сервису. Пусть будет db
   db:
     # Docker автоматически скачает этот официальный готовый образ базы данных из интернета
-    image: postgres:15-alpine
+    image: postgres:15-bookworm
     # Название контейнера, которое будет отображаться в Docker Desktop
     container_name: price_tracker_postgres
 
