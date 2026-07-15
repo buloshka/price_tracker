@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# Инициализируем приложение FastAPI с метаданными
+from src.routers.auth import router as auth_router
+from src.routers.products import router as products_router
+
+
 app = FastAPI(
     title="Price Tracker API",
     description="Сервис мониторинга цен с уведомлениями в Telegram",
@@ -24,6 +27,6 @@ async def health_check():
         "message": "Price Tracker API is up and running"
     }
 
-# Сюда мы чуть позже подключим наш роутер авторизации:
-# from src.routers.auth import router as auth_router
-# app.include_router(auth_router)
+
+app.include_router(auth_router)
+app.include_router(products_router)

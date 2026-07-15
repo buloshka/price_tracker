@@ -6,6 +6,9 @@ class Settings(BaseSettings):
     DB_HOST: str
     DB_PORT: int
     DB_NAME: str
+    JWT_SECRET: str
+    JWT_ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60  # Токен будет жить 1 час
 
     @property
     def DATABASE_URL_ASYNC(self) -> str:
